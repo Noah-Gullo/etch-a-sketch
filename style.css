@@ -1,0 +1,27 @@
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    font-size: 64px;    
+    justify-content: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.container{
+    width: 500px;
+    height: 500px;
+    border: solid black;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.grid{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
