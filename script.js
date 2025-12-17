@@ -1,12 +1,13 @@
 const container = document.querySelector(".container");
 let squares = undefined;
 let gridSize = 0;
+let globalColor = "#00ff00";
 
 const newGridButton = document.querySelector(".new-grid");
 const clearButton = document.querySelector(".clear-grid");
 
 function createGrid(size){
-    deleteGrid();
+    resetGrid();
     gridSize = size;
     height = Math.floor(parseInt(container.getAttribute("width"))) / size;
     width = height;
@@ -15,13 +16,14 @@ function createGrid(size){
         for(let j = 0; j < size; j++)
         {
             const square = document.createElement("div");
-            square.classList.add("square");
+            square.classList.add("square"); 
             square.style.display = "flex";
             square.setAttribute("style",`height: ${height}px; width: ${width}px`);
-            if((i + j) % 2 == 0 ){
-                square.style.backgroundColor = "pink";
-            }
+            square.style.backgroundColor = "#ffffff";
             square.style.flexShrink = "0"; 
+            square.addEventListener("mouseenter", () => {
+                square.style.backgroundColor = globalColor;
+            });
             container.appendChild(square);
         }
     }
@@ -29,8 +31,17 @@ function createGrid(size){
     squares = document.querySelectorAll(".square");
 }
 
-function deleteGrid(){
+function clearGrid(){
     squares = document.querySelectorAll(".square");
+    for(let i = 0; i < squares.length; i++){
+        let square = squares[i];
+        square.style.backgroundColor = "#ffffff";
+    }
+}
+
+function resetGrid(){
+    squares = document.querySelectorAll(".square");
+
     for(let i = 0; i < squares.length; i++){
         let square = squares[i];
         container.removeChild(square);
@@ -55,5 +66,9 @@ function filterInput(){
     return input;
 }
 
-clearButton.addEventListener("click", () => deleteGrid());
+function setColor(color){
+    globalColor = color;
+}
+
+clearButton.addEventListener("click", () => clearGrid());
 newGridButton.addEventListener("click", () => createGrid(filterInput()));
