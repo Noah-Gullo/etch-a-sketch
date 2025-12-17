@@ -2,10 +2,14 @@ const container = document.querySelector(".container");
 let squares = undefined;
 let gridSize = 0;
 let globalColor = "#000000";
+let rainbowMode = false;
+let gradientMode = false;
 
 const newGridButton = document.querySelector(".new-grid");
 const colorInput = document.querySelector(".change-color");
 const eraserButton = document.querySelector(".eraser");
+const randomColorButton = document.querySelector(".random");
+const rainbowModeButton = document.querySelector(".rainbow");
 const clearButton = document.querySelector(".clear-grid");
 
 function createGrid(size){
@@ -24,7 +28,13 @@ function createGrid(size){
             square.style.backgroundColor = "#ffffff";
             square.style.flexShrink = "0"; 
             square.addEventListener("mouseenter", () => {
-                square.style.backgroundColor = globalColor;
+                if(rainbowMode){
+                    square.style.backgroundColor = getRandomHexColor();
+                }else if(gradientMode){
+
+                }else{  
+                    square.style.backgroundColor = globalColor;
+                }
             });
             container.appendChild(square);
         }
@@ -68,11 +78,49 @@ function filterInput(){
     return input;
 }
 
+function getRandomHexColor(){
+    let randomColor = ""
+    for(let i = 0; i < 6; i++){
+        let randomDigit = Math.floor(Math.random() * 16);
+        switch (randomDigit) {
+            case 10:
+                randomDigit = "A";
+                break;
+            case 11:
+                randomDigit = "B";
+                break;
+            case 12:
+                randomDigit = "C";
+                break;
+            case 13: 
+                randomDigit = "D";
+                break;
+            case 14: 
+                randomDigit = "E";
+                break;
+            case 15:
+                randomDigit = "F";
+                break;
+            default:
+                randomDigit;
+        } 
+
+        randomColor += randomDigit;
+    }
+    return "#" + randomColor;
+}
+
 function setColor(color){
     globalColor = color;
+    colorInput.value = color;
 }
 
 clearButton.addEventListener("click", () => clearGrid());
 colorInput.addEventListener("input", () => setColor(colorInput.value));
 eraserButton.addEventListener("click", () => setColor("#ffffff"));
+randomColorButton.addEventListener("click", () => {setColor(getRandomHexColor())});
+rainbowModeButton.addEventListener("click", () => {
+    rainbowMode = !rainbowMode;
+    gradientMode = false;
+});
 newGridButton.addEventListener("click", () => createGrid(filterInput()));
