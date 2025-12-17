@@ -37,5 +37,23 @@ function deleteGrid(){
     }
 }
 
+function filterInput(){
+    let input = parseInt(prompt("Please enter an integer 1 to 100 for the grid size."));
+
+    if(isNaN(input)){
+        alert("Input is not a number. Please input an number.");
+    }else if (input > 100){
+        alert("Input is greater than 100. Please try again.");
+    }else if (input < 1){
+        alert("Input is less than 1. Please try again.");
+    }
+
+    if(isNaN(input) || input > 100 || input < 1){
+        input = 0;
+    }
+
+    return input;
+}
+
 clearButton.addEventListener("click", () => deleteGrid());
-newGridButton.addEventListener("click", () => createGrid(parseInt(prompt("Num 1-100"))));
+newGridButton.addEventListener("click", () => createGrid(filterInput()));
