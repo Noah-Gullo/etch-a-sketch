@@ -2,14 +2,15 @@ const container = document.querySelector(".container");
 let squares = undefined;
 let gridSize = 0;
 let globalColor = "#000000";
-let rainbowMode = false;
-let gradientMode = false;
+let rainbowModeActive = false;
+let gradientModeActive = false;
 
 const newGridButton = document.querySelector(".new-grid");
 const colorInput = document.querySelector(".change-color");
 const eraserButton = document.querySelector(".eraser");
 const randomColorButton = document.querySelector(".random");
 const rainbowModeButton = document.querySelector(".rainbow");
+const gradientModeButton = document.querySelector(".gradient");
 const clearButton = document.querySelector(".clear-grid");
 
 function createGrid(size){
@@ -28,11 +29,16 @@ function createGrid(size){
             square.style.backgroundColor = "#ffffff";
             square.style.flexShrink = "0"; 
             square.addEventListener("mouseenter", () => {
-                if(rainbowMode){
+                if(rainbowModeActive){
                     square.style.backgroundColor = getRandomHexColor();
-                }else if(gradientMode){
-
+                }else if(gradientModeActive){
+                    if (square.style.opacity === 1 ){
+                        square.style.opacity = 0;
+                    }else{
+                        square.style.opacity = ((square.style.opacity * 10) + 1) / 10;
+                    }
                 }else{  
+                    square.style.opacity = 1;
                     square.style.backgroundColor = globalColor;
                 }
             });
@@ -120,7 +126,11 @@ colorInput.addEventListener("input", () => setColor(colorInput.value));
 eraserButton.addEventListener("click", () => setColor("#ffffff"));
 randomColorButton.addEventListener("click", () => {setColor(getRandomHexColor())});
 rainbowModeButton.addEventListener("click", () => {
-    rainbowMode = !rainbowMode;
-    gradientMode = false;
+    rainbowModeActive = !rainbowModeActive;
+    gradientModeActive = false;
+});
+gradientModeButton.addEventListener("click", () => {
+    gradientModeActive = !gradientModeActive;
+    rainbowModeActive = false;
 });
 newGridButton.addEventListener("click", () => createGrid(filterInput()));
