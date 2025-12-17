@@ -1,9 +1,11 @@
 const container = document.querySelector(".container");
 let squares = undefined;
 let gridSize = 0;
-let globalColor = "#00ff00";
+let globalColor = "#000000";
 
 const newGridButton = document.querySelector(".new-grid");
+const colorInput = document.querySelector(".change-color");
+const eraserButton = document.querySelector(".eraser");
 const clearButton = document.querySelector(".clear-grid");
 
 function createGrid(size){
@@ -71,4 +73,6 @@ function setColor(color){
 }
 
 clearButton.addEventListener("click", () => clearGrid());
+colorInput.addEventListener("input", () => setColor(colorInput.value));
+eraserButton.addEventListener("click", () => setColor("#ffffff"));
 newGridButton.addEventListener("click", () => createGrid(filterInput()));
