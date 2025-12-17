@@ -13,6 +13,8 @@ const rainbowModeButton = document.querySelector(".rainbow");
 const gradientModeButton = document.querySelector(".gradient");
 const clearButton = document.querySelector(".clear-grid");
 
+const buttons = document.querySelectorAll("button"); 
+
 function createGrid(size){
     resetGrid();
     gridSize = size;
@@ -32,7 +34,7 @@ function createGrid(size){
                 if(rainbowModeActive){
                     square.style.backgroundColor = getRandomHexColor();
                 }else if(gradientModeActive){
-                    if (square.style.opacity === 1 ){
+                    if (square.style.opacity > 1 ){
                         square.style.opacity = 0;
                     }else{
                         square.style.opacity = ((square.style.opacity * 10) + 1) / 10;
@@ -54,6 +56,7 @@ function clearGrid(){
     for(let i = 0; i < squares.length; i++){
         let square = squares[i];
         square.style.backgroundColor = "#ffffff";
+        square.style.opacity = 1;
     }
 }
 
@@ -121,16 +124,49 @@ function setColor(color){
     colorInput.value = color;
 }
 
+function buttonHover(button){
+    button.style.opacity = 0.5;
+}
+
+function buttonExit(button){
+    button.style.opacity = 1;
+}
+
 clearButton.addEventListener("click", () => clearGrid());
 colorInput.addEventListener("input", () => setColor(colorInput.value));
 eraserButton.addEventListener("click", () => setColor("#ffffff"));
 randomColorButton.addEventListener("click", () => {setColor(getRandomHexColor())});
 rainbowModeButton.addEventListener("click", () => {
     rainbowModeActive = !rainbowModeActive;
+
+    if(rainbowModeActive){
+        rainbowModeButton.style.backgroundColor = "#000a7cff";
+    }else{
+        rainbowModeButton.style.backgroundColor =  "#0084ff";
+    }
+
     gradientModeActive = false;
+    gradientModeButton.style.backgroundColor =  "#0084ff";
 });
+
 gradientModeButton.addEventListener("click", () => {
     gradientModeActive = !gradientModeActive;
+
+    if(gradientModeActive){
+        gradientModeButton.style.backgroundColor = "#000a7cff";
+    }else{
+        gradientModeButton.style.backgroundColor =  "#0084ff";
+    }
+
     rainbowModeActive = false;
+    rainbowModeButton.style.backgroundColor =  "#0084ff";
 });
+
 newGridButton.addEventListener("click", () => createGrid(filterInput()));
+
+for(let i = 0; i < buttons.length; i++){
+    buttons[i].addEventListener("mouseenter", () => buttonHover(buttons[i]));
+    buttons[i].addEventListener("mouseleave", () => buttonExit(buttons[i]));
+}
+
+createGrid(16);
